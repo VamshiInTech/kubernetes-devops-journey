@@ -19,8 +19,12 @@ jobs:
     - name: Build Docker Image
       run: docker build -t notes-app:ci ./app
 
-    - name: Run container (test)
-      run: docker run -d -p 5000:5000 notes-app:ci
+      docker run -d -p 5000:5000 \
+        -e FILE_PATH=/data/notes.txt \
+        -e APP_PASSWORD=admin \
+        notes-app:ci
+      - name: Wait for app to start
+        run: sleep 5
 
-    - name: Verify app running
-      run: curl http://localhost:5000
+      - name: Verify app running
+        run: curl http://localhost:5000
