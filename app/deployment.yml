@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notes-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: notes
+  template:
+    metadata:
+      labels:
+        app: notes
+    spec:
+      containers:
+      - name: notes-app
+        image: notes-app:v5
+        imagePullPolicy: Never 
+        ports:
+        - containerPort: 5000
+
+        env:   # ✅ inside container
+        - name: FILE_PATH
+          valueFrom:
+            configMapKeyRef:
+              name: notes-config
+              key: FILE_PATH
+        - name: APP_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: notes-secret
+              key: APP_PASSWORD
+
+        volumeMounts:
+        - name: notes-storage
+          mountPath: /data
+
+      volumes:
+      - name: notes-storage
+        persistentVolumeClaim:
+          claimName: nginx-pvc
+      resources:
+        requests:
+          cpu: "100m"
+        limits:
+          cpu: "200m"

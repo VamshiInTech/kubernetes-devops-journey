@@ -1,0 +1,6 @@
+Project: Kubernetes Notes App
+Concepts used:
+- PV
+- PVC
+- Deployment
+- Service

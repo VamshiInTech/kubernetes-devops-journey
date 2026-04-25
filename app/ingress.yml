@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: notes-ingress
+spec:
+  ingressClassName: nginx   # 👈 ADD THIS
+  rules:
+  - host: notes.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: notes-service
+            port:
+              number: 5000
