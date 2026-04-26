@@ -1,4 +1,4 @@
-name: CI Pipeline - Notes App
+name: CI-CD Pipeline - Notes App
 
 on:
   push:
@@ -6,28 +6,18 @@ on:
       - main
 
 jobs:
-  build:
+  build-and-push:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Show files
-      run: ls -la
-
     - name: Build Docker Image
-      run: docker build -t notes-app:ci ./app
+      run: docker build -t ${{ secrets.DOCKER_USERNAME }}/notes-app:latest ./app
 
-    - name: Run container
-      run: |
-        docker run -d -p 5000:5000 \
-        -e FILE_PATH=/data/notes.txt \
-        -e APP_PASSWORD=admin \
-        notes-app:ci
+    - name: Login to DockerHub
+      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-    - name: Wait for app to start
-      run: sleep 5
-
-    - name: Verify app running
-      run: curl http://localhost:5000
+    - name: Push Docker Image
+      run: docker push ${{ secrets.DOCKER_USERNAME }}/notes-app:latest
