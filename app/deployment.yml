@@ -14,8 +14,8 @@ spec:
     spec:
       containers:
       - name: notes-app
-        image: notes-app:v5
-        imagePullPolicy: Never 
+        image: vamshiintech/notes-app:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 5000
 
