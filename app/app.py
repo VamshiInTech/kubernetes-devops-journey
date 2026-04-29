@@ -7,7 +7,7 @@ FILE = os.getenv("FILE_PATH", "/data/notes.txt")
 PASSWORD = os.getenv("APP_PASSWORD")
 
 HTML = """
-<h2>📝 Vamshi Notes App - CD  v1</h2>
+<h2>📝 Vamshi Notes App - Rolling Test 🚀</h2>
 
 <form method="POST">
     <textarea name="note" rows="10" cols="50">{{ note }}</textarea><br><br>
