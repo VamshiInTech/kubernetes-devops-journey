@@ -4,6 +4,11 @@ metadata:
   name: notes-deployment
 spec:
   replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
   selector:
     matchLabels:
       app: notes
@@ -14,7 +19,7 @@ spec:
     spec:
       containers:
       - name: notes-app
-        image: vamshiintech/notes-app:latest
+        image: vamshiintech/notes-app:15
         imagePullPolicy: Always
         ports:
         - containerPort: 5000
@@ -30,6 +35,21 @@ spec:
             secretKeyRef:
               name: notes-secret
               key: APP_PASSWORD
+
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 5000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 5000
+          initialDelaySeconds: 10
+          periodSeconds: 10
+
 
         volumeMounts:
         - name: notes-storage
