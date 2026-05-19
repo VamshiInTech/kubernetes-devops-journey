@@ -1,0 +1,10 @@
+resources:
+  - ../../base
+
+namePrefix: dev-
+
+commonLabels:
+  env: prod
+
+patches:
+  - path: deployment-patch.yml

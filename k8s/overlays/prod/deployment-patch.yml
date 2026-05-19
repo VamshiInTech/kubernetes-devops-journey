@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: notes-deployment
+
+spec:
+  replicas: 3
+
+  template:
+    spec:
+      containers:
+      - name: notes-app
+
+        image: vamshiintech/notes-app:15
+
+        resources:
+          requests:
+            cpu: "200m"
+            memory: "256Mi"
+
+          limits:
+            cpu: "500m"
+            memory: "512Mi"

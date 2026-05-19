@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: notes-app
-        image: vamshiintech/notes-app:15
+        image: vamshiintech/notes-app:16
         imagePullPolicy: Always
         ports:
         - containerPort: 5000
@@ -50,17 +50,7 @@ spec:
           initialDelaySeconds: 10
           periodSeconds: 10
 
-
-        volumeMounts:
-        - name: notes-storage
-          mountPath: /data
-
       volumes:
       - name: notes-storage
         persistentVolumeClaim:
           claimName: nginx-pvc
-      resources:
-        requests:
-          cpu: "100m"
-        limits:
-          cpu: "200m"
